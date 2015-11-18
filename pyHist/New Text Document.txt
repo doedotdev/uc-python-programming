@@ -1,0 +1,58 @@
+import collections # this is needed for dictionary grouping actions
+import openpyxl # this is needed to open an xl file
+import re # this is needed to parse the file
+
+################################################################
+FILE_NAME = 'Book1.xlsx';# Just enter in the file name
+# uncomment next line to enter any file name in current working directory
+# FILE_NAME = raw_input("Enter in the name of the file(Default 'Book1.xlsx': ")
+
+################################################################
+# File IO
+wb = openpyxl.load_workbook(FILE_NAME)
+wb.get_sheet_names()
+sheet = wb.get_sheet_by_name('Sheet1')
+
+################################################################
+# Good Data To Have
+rows = sheet.max_row
+cols = sheet.max_column
+print "File Name: %s" % FILE_NAME
+print "Rows: %s." % rows
+print "Cols: %s." % cols
+
+################################################################
+master_list = collections.namedtuple('Data', 'Occurrences Value')
+d = {} # instantiating a empty list; Doesn't do anything
+
+# enter in the column to look at right here, make sure its in range
+col_to_analyze = int(raw_input("Enter a column to analyze: "))
+
+################################################################
+for j in range(1,rows):
+    words = sheet.cell(row = j, column = col_to_analyze).value
+    words = words.split() # split up what is in the cell so we can work through it by word
+    for each in words:
+        each = re.sub('[^0-9a-zA-Z]+', '', each)
+        if each != '':
+            if each.lower() in d: # if it exists in my dictionary
+                d[each.lower()] += 1 # add one to its occurrences
+            else: # if it is not there
+                d[each.lower()] = 1 # set it to 1, its first time in the dictionary
+
+ordered_master_list = sorted([master_list(v,k) for (k,v) in d.items()], reverse=True)
+
+'''
+for each in range(0,rows):
+    print ordered_master_list[each]
+'''
+
+################################################################
+print('\n\n')
+for k, v in ordered_master_list:
+    print "%s : %i." % (v, k)
+
+
+
+
+
