@@ -1,0 +1,18 @@
+<HTML>
+<HEAD>
+<TITLE>BLOG</TITLE>
+</HEAD>
+<BODY BGCOLOR="FFFFFF">
+<CENTER><IMG SRC="clouds.jpg" ALIGN="BOTTOM"> </CENTER>
+<HR>
+<H1>All Posts</H1>
+
+
+<br>
+<br>
+<br>
+<P> <B>Thanks for visiting!</B>
+<BR> <B><I>Blog by Benjamin D. Horn - University of Cincinnati..</I></B>
+<HR>
+</BODY>
+</HTML>
