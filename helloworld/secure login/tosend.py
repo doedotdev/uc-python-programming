@@ -95,27 +95,13 @@ TO_SITE_HTML_NEW = """\
 
 
 def myHash(str):
-    str = hashlib.md5(str)
-    str = str.hexdigest()
     return str
 
 def myScribble(str):
-    new_strs = []
-    for letter in str:
-        x = ord(letter)
-        x = x + 3
-        new_strs.append(chr(x))
-    return "qa1zwsxedc7rfvtgbyh3nujmiko8lp" + "".join(new_strs)
+    return str
 
 def unScribble(str):
-    str = str.split("qa1zwsxedc7rfvtgbyh3nujmiko8lp")
-    str = str[1]
-    new_strs = []
-    for letter in str:
-        x = ord(letter)
-        x = x - 3
-        new_strs.append(chr(x))
-    return "".join(new_strs)
+    return str
 
 
 class myUsers(db.Model):
@@ -174,10 +160,6 @@ class logInCheckSecure(webapp2.RequestHandler):
         z.filter('pass_word =', entered_pass_word)
 
         if not v.get() or not z.get():
-            self.response.write("Error: Invalid username or password!")
-            self.response.write('<br><br> Invalid entry for: ')
-            self.response.write(entered_user_name)
-            self.response.write('<br><br>')
             self.response.write(LOG_IN_HTML_NEW)
             self.response.write('<br><br>')
             return
@@ -195,9 +177,6 @@ class entrySecure(webapp2.RequestHandler):
 class MainHandlerSecure(webapp2.RequestHandler):
     def get(self):
         self.response.write(LOG_IN_HTML_NEW)
-        #self.query2 = myUsers.all()
-        #for self.each in self.query2:
-            #self.response.write('<p> %s  %s  ..   %s -   %s - -  %s  - - - %s</p>' % (self.each.my_name_first, self.each.my_name_last,  self.each.user_name,self.each.my_user_email, self.each.pass_word, self.each.date_created))
 
 app = webapp2.WSGIApplication([
     ('/X', MainHandlerSecure),
