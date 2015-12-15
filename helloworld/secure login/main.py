@@ -2,7 +2,7 @@ import webapp2
 import hashlib
 from google.appengine.ext import db
 import datetime
-
+from webapp2_extras import sessions
 
 LOG_IN_HTML_NEW = """\
 <html>
@@ -198,6 +198,33 @@ class MainHandlerSecure(webapp2.RequestHandler):
         #self.query2 = myUsers.all()
         #for self.each in self.query2:
             #self.response.write('<p> %s  %s  ..   %s -   %s - -  %s  - - - %s</p>' % (self.each.my_name_first, self.each.my_name_last,  self.each.user_name,self.each.my_user_email, self.each.pass_word, self.each.date_created))
+
+
+class BaseHandler(webapp2.RequestHandler):
+    def dispatch(self):
+        # Get a session store for this request.
+        self.session_store = sessions.get_store(request=self.request)
+
+        try:
+            # Dispatch the request.
+            webapp2.RequestHandler.dispatch(self)
+        finally:
+            # Save all sessions.
+            self.session_store.save_sessions(self.response)
+
+    @webapp2.cached_property
+    def session(self):
+        # Returns a session using the default cookie key.
+        return self.session_store.get_session()
+'''
+# To set a value:
+self.session['foo'] = 'bar'
+
+# To get a value:
+foo = self.session.get('foo')
+'''
+
+
 
 app = webapp2.WSGIApplication([
     ('/X', MainHandlerSecure),
