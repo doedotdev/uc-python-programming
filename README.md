@@ -1,2 +1,2 @@
-# py
-Python Projects
+# uc-python-programming
+University of Cincinnati - Python Programming
